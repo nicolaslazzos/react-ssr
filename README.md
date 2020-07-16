@@ -1,2 +1,2 @@
 # react-ssr
-Basic project to learn and test how server side rendering works with React and Redux.
+Basic project to learn and test how to implement Server-Side Rendering with React and Redux.
