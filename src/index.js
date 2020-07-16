@@ -1,5 +1,7 @@
 import 'babel-polyfill';
 import express from 'express';
+import { matchRoutes } from 'react-router-config';
+import Routes from './client/Routes';
 import renderer from './helpers/renderer';
 import createStore from './helpers/createStore';
 
@@ -13,7 +15,12 @@ app.get('*', (req, res) => {
   // we initialize the store here because we want to get the data and load it into the store before we render
   const store = createStore();
 
-  res.send(renderer(req, store));
+  // we are trying to see what components need to be rendered, so we fetch the necessary data without rendering the app
+  const promises = matchRoutes(Routes, req.path).map(({ route }) => route.loadData ? route.loadData(store) : null);
+
+  Promise.all(promises).then(() => {
+    res.send(renderer(req, store));
+  });
 });
 
 app.listen(3000, () => console.log('Listening on port 3000'));
