@@ -19,11 +19,9 @@ class UsersListPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ users: state.users });
-
-const loadData = store => store.dispatch(fetchUsers());
+const mapStateToProps = ({ users }) => ({ users });
 
 export default {
   component: connect(mapStateToProps, { fetchUsers })(UsersListPage),
-  loadData
+  loadData: ({ dispatch }) => dispatch(fetchUsers())
 };
