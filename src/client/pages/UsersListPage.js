@@ -9,10 +9,10 @@ class UsersListPage extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>Users List</div>
-        <ul>
-          {this.props.users.map(user => <li key={user.id}>{user.name}</li>)}
+      <div style={{ padding: '20px' }}>
+        <ul className="collection with-header">
+          <li className="collection-header"><h4>Users List</h4></li>
+          {this.props.users.map(user => <li className="collection-item" key={user.id}>{user.name}</li>)}
         </ul>
       </div >
     );

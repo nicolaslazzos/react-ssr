@@ -3,23 +3,23 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const Header = ({ auth }) => {
-  console.log(auth);
-
   const authButton = auth ? (
-    <a href="/api/logout"> Logout</a>
+    <a href="/api/logout">Logout</a>
   ) : (
-      <a href="/api/auth/google"> Login</a>
+      <a href="/api/auth/google">Login</a>
     );
 
   return (
-    <div>
-      <Link to='/'>REACT-SSR</Link>
-      <div>
-        <Link to='/users'> Users List</Link>
-        <Link to='/admins'> Admins List</Link>
-        {authButton}
+    <nav>
+      <div className="nav-wrapper deep-purple darken-1">
+        <Link to='/' className="brand-logo left" style={{ paddingRight: '15px', paddingLeft: '15px' }}>React SSR</Link>
+        <ul className="right">
+          <li><Link to='/users'>Users</Link></li>
+          <li><Link to='/admins'>Admins</Link></li>
+          <li>{authButton}</li>
+        </ul>
       </div>
-    </div>
+    </nav>
   );
 }
 

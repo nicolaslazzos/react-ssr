@@ -26,9 +26,14 @@ app.get('*', (req, res) => {
 
   // we are trying to see what components need to be rendered, so we fetch the necessary data without rendering the app
   const promises = matchRoutes(Routes, req.path).map(({ route }) => route.loadData ? route.loadData(store) : null);
-     
+
   Promise.all(promises).then(() => {
-    res.send(renderer(req, store));
+    const context = {};
+    const content = renderer(req, store, context);
+
+    if (context.notFound) res.status(404);
+
+    res.send(content);
   });
 });
 
