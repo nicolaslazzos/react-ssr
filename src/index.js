@@ -25,11 +25,18 @@ app.get('*', (req, res) => {
   const store = createStore(req);
 
   // we are trying to see what components need to be rendered, so we fetch the necessary data without rendering the app
-  const promises = matchRoutes(Routes, req.path).map(({ route }) => route.loadData ? route.loadData(store) : null);
+  const promises = matchRoutes(Routes, req.path)
+    .map(({ route }) => route.loadData ? route.loadData(store) : null)
+    .map(promise => promise ? new Promise((resolve, reject) => promise.then(resolve).catch(resolve)) : null);
 
   Promise.all(promises).then(() => {
     const context = {};
     const content = renderer(req, store, context);
+
+    // when the user tries to access a private route, we render a redirect component, but in the server side, the redirect
+    // component does not works, so the server adds some data into the context object, so we can check this info and
+    // manually redirect the user to the corresponding url
+    if (context.url) return res.redirect(301, context.url);
 
     if (context.notFound) res.status(404);
 

@@ -19,3 +19,14 @@ export const fetchCurrentUser = () => async (dispatch, getState, api) => {
     console.error(error.message);
   }
 }
+
+export const FETCH_ADMINS = 'FETCH_ADMINS';
+
+export const fetchAdmins = () => async (dispatch, getState, api) => {
+  try {
+    const res = await api.get('/admins');
+    dispatch({ type: FETCH_ADMINS, payload: res.data });
+  } catch (error) {
+    console.error(error.message);
+  }
+}
